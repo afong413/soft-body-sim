@@ -1,0 +1,11 @@
+[project]
+name = "soft-body-sim"
+version = "0.1.0"
+description = "Mass-spring model simulations"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "numpy>=2.5.0",
+    "pygame>=2.6.1",
+    "pyopengl>=3.1.10",
+]

@@ -6,4 +6,4 @@ This is a simple implementation of soft body physics. It uses the mass-spring mo
 
 ## Usage
 
-Just install the dependencies and run `main.py`.
+Just install the dependencies and run `src/main.py`.

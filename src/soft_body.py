@@ -102,6 +102,10 @@ class SoftBody:
                         self.pt_pos[j][0] += v0[0] * (2 * self.r - d) / 2
                         self.pt_pos[j][1] += v0[1] * (2 * self.r - d) / 2
                         self.pt_pos[j][2] += v0[2] * (2 * self.r - d) / 2
+                        if np.dot(self.velocity[i], v1) < 0:
+                            self.velocity[i] = self.reflect(self.velocity[i], v1, 0.8)
+                        if np.dot(self.velocity[j], v0) < 0:
+                            self.velocity[j] = self.reflect(self.velocity[j], v0, 0.8)
 
     def direction_vector(self, p1, p2):
         return [p2[i] - p1[i] for i in range(len(p1))]

@@ -5,11 +5,11 @@ class Rect(SoftBody):
     def __init__(self, position, mass, size, division, radii, stiffness, damping):
         x0, y0, z0 = position[0], position[1], position[2]
         width, height, depth = size[0], size[1], size[2]
-        massPoints = []
+        mass_points = []
         for x in range(width + 1):
             for y in range(height + 1):
                 for z in range(depth + 1):
-                    massPoints += [
+                    mass_points += [
                         [
                             x0 + x * division - width * division / 2,
                             y0 + y * division - height * division / 2,
@@ -144,7 +144,7 @@ class Rect(SoftBody):
                     self.flatten(width, height, z + 1, width, height, depth),
                 )
             ]
-        super().__init__(mass, massPoints, radii, springs, stiffness, damping, outline)
+        super().__init__(mass, mass_points, radii, springs, stiffness, damping, outline)
 
     def flatten(self, x, y, z, w, h, d):
         return x * (h + 1) * (d + 1) + y * (d + 1) + z

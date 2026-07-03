@@ -1,7 +1,7 @@
 from OpenGL.GL import GL_LINES, glBegin, glColor3fv, glEnd, glVertex3fv
 
 
-def drawFloor(width, depth, division):
+def draw_floor(width, depth, division):
     glBegin(GL_LINES)
     glColor3fv((0, 1, 0))
     for x in range(width + 1):

@@ -2,9 +2,20 @@
 
 import numpy as np
 import pygame
-from OpenGL.GL import *
-from OpenGL.GLU import *
-from pygame.locals import *
+from OpenGL.GL import (
+    GL_COLOR_BUFFER_BIT,
+    GL_DEPTH_BUFFER_BIT,
+    GL_DEPTH_TEST,
+    GL_LINES,
+    glBegin,
+    glClear,
+    glColor3fv,
+    glEnable,
+    glEnd,
+    glVertex3fv,
+)
+from OpenGL.GLU import gluLookAt, gluPerspective
+from pygame.locals import DOUBLEBUF, OPENGL
 
 
 class SoftBody:
@@ -42,7 +53,7 @@ class SoftBody:
         ) * self.damp
 
     def calculateForces(self):
-        self.force = [[0, 0, 0] for point in self.ptPos]
+        self.force = [[0.0, 0.0, 0.0] for _ in self.ptPos]
         for i in range(len(self.force)):
             self.force[i][1] -= 0.01
 
@@ -87,7 +98,7 @@ class SoftBody:
                 self.ptPos[i][0] = 50
                 self.velocity[i] = self.reflect(self.velocity[i], [-1, 0, 0], 0.8)
             elif self.ptPos[i][0] < -50:
-                self.ptPos[i][0] = 50
+                self.ptPos[i][0] = -50
                 self.velocity[i] = self.reflect(self.velocity[i], [1, 0, 0], 0.8)
 
     def selfCollide(self):
@@ -106,8 +117,8 @@ class SoftBody:
                         self.ptPos[j][0] += v0[0] * (2 * self.r - d) / 2
                         self.ptPos[j][1] += v0[1] * (2 * self.r - d) / 2
                         self.ptPos[j][2] += v0[2] * (2 * self.r - d) / 2
-                        self.velocity[i] = self.reflect(self.velocity[i], v1)
-                        self.velocity[j] = self.reflect(self.velocity[j], v0)
+                        self.velocity[i] = self.reflect(self.velocity[i], v1, 0.8)
+                        self.velocity[j] = self.reflect(self.velocity[j], v0, 0.8)
 
     def directionVector(self, p1, p2):
         return [p2[i] - p1[i] for i in range(len(p1))]
@@ -304,7 +315,7 @@ while running:
         softBodies[i].wallCollide()
         softBodies[i].selfCollide()
 
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)  # pyright: ignore[reportOperatorIssue]
     glEnable(GL_DEPTH_TEST)
 
     drawFloor(12, 12, 10)
